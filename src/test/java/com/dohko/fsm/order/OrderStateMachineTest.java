@@ -7,6 +7,7 @@ import com.dohko.fsm.order.bean.Order;
 import com.dohko.fsm.order.enums.OrderEvent;
 import com.dohko.fsm.order.enums.OrderState;
 import com.dohko.fsm.order.handler.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -70,12 +71,16 @@ public class OrderStateMachineTest {
 
 
         stateMachine.transition(order, OrderEvent.SUBMIT_ORDER);
+        Assert.assertEquals(OrderState.WAIT_PAY, order.getState());
 
         stateMachine.transition(order, OrderEvent.PAY);
+        Assert.assertEquals(OrderState.WAIT_DELIVERY, order.getState());
 
         stateMachine.transition(order, OrderEvent.DELIVERY);
+        Assert.assertEquals(OrderState.WAIT_RECEIVE, order.getState());
 
         stateMachine.transition(order, OrderEvent.CONFIRM_RECEIVE);
+        Assert.assertEquals(OrderState.COMPLETE, order.getState());
 
 
 
